@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: parent(~{:: #content}, ~{:: title})}">
+
+<head>
+    <title>To-Do App</title>
+</head>
+
+<body>
+<div id="content">
+    <div th:replace="~{navbar :: navigation}"></div>
+    <section class="home" id="home">
+        <div class="container">
+            <div class="task-header">
+<!--                <div class="personal-info">-->
+<!--                    <p class="name">Name of user</p>-->
+<!--                    <span class="user-name">@username</span>-->
+<!--                </div>-->
+
+                <div class="add">
+                    <a th:href="@{/tasks/createTask}" class="button">
+                        <ion-icon name="add-circle" class="icon"></ion-icon>
+                        Add Task
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="todo-cards">
+        <div class="container">
+            <div class="card-list">
+
+                <div class="card" th:each="taskCards : ${allTask}"
+                     th:classappend="${taskCards.isCompleted()} ? 'completed-task' : ''">
+
+                    <div class="card_body">
+                        <p class="title" th:text="${taskCards.title}">Task One title!</p>
+
+                        <div class="dropdown">
+                            <ion-icon name="ellipsis-vertical-outline" id="action-btn"
+                                      onclick="toggleDropdown(this)"></ion-icon>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" id="complete"
+                                   th:href="@{/tasks/toggleTask/{id} (id=${taskCards.id})}">
+                                    Complete
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                </a>
+                                <a class="dropdown-item" id="delete"
+                                   th:href="@{/tasks/deleteTask/{id} (id=${taskCards.id})}">
+                                    Delete
+                                    <ion-icon name="close-circle-outline"></ion-icon>
+                                </a>
+                                <a class="dropdown-item" id="update"
+                                   th:href="@{/tasks/updateTask/{id} (id=${taskCards.id})}">
+                                    Update
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="title_date">
+                            <div class="date">
+                                <ion-icon name="calendar-outline"></ion-icon>
+                                <p class="date" th:text="${taskCards.date}">20-11-2024</p>
+                            </div>
+                            <div class="time">
+                                <ion-icon name="time-outline"></ion-icon>
+                                <p class="time" th:text="${taskCards.time}">05:00 AM</p>
+                            </div>
+                        </div>
+
+                        <div class="priority">
+                            <ion-icon name="pulse-outline"></ion-icon>
+                            <p class="priority-level" th:text="${taskCards.priority}">Medium</p>
+                        </div>
+
+                        <p class="card_description" th:text="${taskCards.description}">
+                            Sort and arrange your books by genre, author, or color to create a neat and visually
+                            appealing
+                            bookshelf. Consider adding bookends for stability and maybe a few decorative items to
+                            personalize the space.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
